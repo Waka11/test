@@ -1,25 +1,52 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import UserList from "./UserList";
 
 class App extends Component {
+  state = {
+    users: [],
+    isLoaded: false
+  };
+
+  componentDidMount() {
+    fetch(
+      "https://api.github.com/search/users?o=desc&q=location%3ARivne&s=followers&type=Users"
+    )
+      .then(Response => Response.json())
+      .then(json => {
+        this.setState({
+          isLoaded: true,
+          users: json
+        });
+        console.log("USERS", json);
+      });
+  }
+
   render() {
+    const { isLoaded, users } = this.state;
+    console.log("USERS", this.state.users);
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        {!isLoaded ? (
+          
+            <div>L o a d i n g . . .</div>
+          
+        ) : (
+          <div>
+            {this.state.users.items.map(iterator => {
+              return (
+                <UserList
+                  {...this.props}
+                  Image={iterator.avatar_url}
+                  User={iterator.login}
+                  URL={iterator.html_url}
+                  key={iterator.id}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     );
   }

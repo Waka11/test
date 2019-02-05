@@ -1,0 +1,25 @@
+.UL{
+    margin:20px;
+    height: 200px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: maroon;
+    color: azure;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+
+}
+img{
+    height: 120px;
+    width: 180px;
+}
+a{
+    text-decoration:none;
+    color: black;
+}
+a:hover{
+    color: azure;
+}
