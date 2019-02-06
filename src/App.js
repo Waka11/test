@@ -10,22 +10,23 @@ class App extends Component {
 
   componentDidMount() {
     fetch(
-      "https://api.github.com/search/users?o=desc&q=location%3ARivne&s=followers&type=Users"
+      "https://api.github.com/search/users?o=desc&q=location%3ARivne&s=followers&type=Users&per_page=10"
     )
       .then(Response => Response.json())
       .then(json => {
+        // json.slice(0, 9);
         this.setState({
           isLoaded: true,
           users: json
         });
         console.log("USERS", json);
       });
+
   }
 
   render() {
     const { isLoaded, users } = this.state;
     console.log("USERS", this.state.users);
-
     return (
       <div className="App">
         {!isLoaded ? (
