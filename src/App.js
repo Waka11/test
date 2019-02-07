@@ -14,25 +14,21 @@ class App extends Component {
     )
       .then(Response => Response.json())
       .then(json => {
-        // json.slice(0, 9);
         this.setState({
           isLoaded: true,
           users: json
         });
-        console.log("USERS", json);
+        // console.log("USERS", json);
       });
-
   }
 
   render() {
     const { isLoaded, users } = this.state;
-    console.log("USERS", this.state.users);
+    // console.log("USERS", this.state.users);
     return (
       <div className="App">
         {!isLoaded ? (
-          
-            <div>L o a d i n g . . .</div>
-          
+          <div>L o a d i n g . . .</div>
         ) : (
           <div>
             {this.state.users.items.map(iterator => {
