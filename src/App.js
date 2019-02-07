@@ -1,6 +1,11 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "./App.css";
 import UserList from "./UserList";
+import show_info from "./action";
+import { store } from "./index";
+
+
 
 class App extends Component {
   state = {
@@ -14,43 +19,44 @@ class App extends Component {
     )
       .then(Response => Response.json())
       .then(json => {
-        // json.slice(0, 9);
         this.setState({
           isLoaded: true,
           users: json
         });
-        console.log("USERS", json);
+        let user_info = this.state.users.items;
+        store.dispatch(show_info(user_info));
       });
-
   }
 
   render() {
     const { isLoaded, users } = this.state;
-    console.log("USERS", this.state.users);
+    console.log("USERS", this.state);
+    console.log("USERS2", this.props.users);
     return (
-      <div className="App">
-        {!isLoaded ? (
-          
+        <div className="App">
+          {!isLoaded ? (
             <div>L o a d i n g . . .</div>
-          
-        ) : (
-          <div>
-            {this.state.users.items.map(iterator => {
-              return (
-                <UserList
-                  {...this.props}
-                  Image={iterator.avatar_url}
-                  User={iterator.login}
-                  URL={iterator.html_url}
+          ) : (
+            <div>
+              {this.state.users.items.map(iterator => {
+                return (
+                  <UserList
                   key={iterator.id}
-                />
-              );
-            })}
-          </div>
-        )}
-      </div>
+                  />
+                );
+              })}
+            </div>
+          )}
+        </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    users: state.Reducer,
+  }
+}
+
+
+export default connect(mapStateToProps,null)(App);
